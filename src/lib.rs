@@ -13,6 +13,8 @@ impl<T, I> Iterator for Uniq<T, I> where T: Iterator<Item=I>, I: Hash + Eq + Clo
 	fn next(&mut self) -> Option<Self::Item> {
 		match self.iter.next() {
 			Some(item) => {
+				// TODO: Remove clone. That'll probably involve some bizarre convolution with the borrow
+				// checker.
 				if self.set.insert(item.clone()) {
 					return Some(item);
 				}
