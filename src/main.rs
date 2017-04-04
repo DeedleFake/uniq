@@ -62,11 +62,11 @@ trait UniqIterator<T, I> where T: Iterator<Item=I>, I: Hash + Eq + Clone {
 	fn uniq(self) -> Uniq<T, I>;
 }
 
-impl<T, I> UniqIterator<T, I> for T where T: Iterator<Item=I>, I: Hash + Eq + Clone {
+impl<N, T, I> UniqIterator<T, I> for N where N: IntoIterator<Item=I, IntoIter=T>, T: Iterator<Item=I>, I: Hash + Eq + Clone {
 	fn uniq(self) -> Uniq<T, I> {
 		Uniq{
 			set: HashSet::new(),
-			iter: self,
+			iter: self.into_iter(),
 		}
 	}
 }
